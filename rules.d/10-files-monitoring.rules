@@ -1,0 +1,130 @@
+## Privilege Abuse
+### The purpose of this rule is to detect when an admin may be abusing power by looking in user's home dir.
+-a always,exit -F arch=b64 -F dir=/home -F uid=0 -F auid>=1000 -F auid!=-1 -C auid!=obj_uid -k power_abuse
+
+## Auditd configuration
+### Modifications to audit configuration that occur while the audit collection functions are operating
+-a always,exit -F arch=b64 -F path=/etc/libaudit.conf -F perm=wa -k auditconfig
+-a always,exit -F arch=b64 -F dir=/etc/audit/ -F perm=wa -k auditconfig
+#-a always,exit -F arch=b64 -F dir=/etc/audisp/ -F perm=wa -k audispconfig
+-a always,exit -F arch=b64 -F dir=/var/log/audit/ -F perm=rwa -k auditlog
+
+## Kernel Related Events
+-a always,exit -F arch=b64 -F path=/etc/sysctl.conf -F perm=wa -k sysctl
+#-a always,exit -F arch=b64 -F path=/etc/modprobe.conf -F perm=wa -k T1215_Kernel_Modules_and_Extensions
+-a always,exit -F arch=b64 -F dir=/etc/modprobe.d/ -F perm=wa -k modprobe
+-a always,exit -F arch=b64 -F dir=/etc/sysctl.d/ -F perm=wa -k sysctl
+
+## Time Related Events
+-a always,exit -F arch=b64 -F path=/etc/localtime -F perm=wa -k T1099_Timestomp
+
+## Cron configuration & scheduled jobs related events
+-a always,exit -F arch=b64 -F path=/etc/cron.allow -F perm=wa -k T1168_Local_Job_Scheduling
+-a always,exit -F arch=b64 -F path=/etc/cron.deny -F perm=wa -k T1168_Local_Job_Scheduling
+-a always,exit -F arch=b64 -F dir=/etc/cron.d/ -F perm=wa -k T1168_Local_Job_Scheduling
+-a always,exit -F arch=b64 -F dir=/etc/cron.daily/ -F perm=wa -k T1168_Local_Job_Scheduling
+-a always,exit -F arch=b64 -F dir=/etc/cron.hourly/ -F perm=wa -k T1168_Local_Job_Scheduling
+-a always,exit -F arch=b64 -F dir=/etc/cron.monthly/ -F perm=wa -k T1168_Local_Job_Scheduling
+-a always,exit -F arch=b64 -F dir=/etc/cron.weekly/ -F perm=wa -k T1168_Local_Job_Scheduling
+-a always,exit -F arch=b64 -F path=/etc/crontab -F perm=wa -k T1168_Local_Job_Scheduling
+-a always,exit -F arch=b64 -F path=/etc/inittab -F perm=wa -k T1168_Local_Job_Scheduling
+-a always,exit -F arch=b64 -F dir=/etc/init.d/ -F perm=wa -k T1168_Local_Job_Scheduling
+-a always,exit -F arch=b64 -F dir=/etc/init/ -F perm=wa -k T1168_Local_Job_Scheduling
+-a always,exit -F arch=b64 -F path=/etc/at.allow -F perm=wa -k T1168_Local_Job_Scheduling
+-a always,exit -F arch=b64 -F path=/etc/at.deny -F perm=wa -k T1168_Local_Job_Scheduling
+-a always,exit -F arch=b64 -F dir=/var/spool/at/ -F perm=wa -k T1168_Local_Job_Scheduling
+-a always,exit -F arch=b64 -F path=/etc/anacrontab -F perm=wa -k T1168_Local_Job_Scheduling
+-a always,exit -F arch=b64 -F dir=/var/spool/cron/ -F perm=wa -k T1168_Local_Job_Scheduling
+
+## Account Related Events
+-a always,exit -F arch=b64 -F path=/etc/sudoers -F perm=rwa -k T1078_Valid_Accounts
+
+## Session Related Events
+-a always,exit -F arch=b64 -F path=/var/run/utmp -F perm=wa -k T1108_Redundant_Access
+-a always,exit -F arch=b64 -F path=/var/log/wtmp -F perm=wa -k T1108_Redundant_Access
+-a always,exit -F arch=b64 -F path=/var/log/btmp -F perm=wa -k T1108_Redundant_Access
+
+## Login Related Events
+-a always,exit -F arch=b64 -F path=/var/log/faillog -F perm=wa -k T1021_Remote_Services
+-a always,exit -F arch=b64 -F path=/var/log/lastlog -F perm=wa -k T1021_Remote_Services
+-a always,exit -F arch=b64 -F path=/var/log/tallylog -F perm=wa -k T1021_Remote_Services
+
+## Pam Related Events
+-a always,exit -F arch=b64 -F dir=/etc/pam.d/ -F perm=wa -k T1071_Standard_Application_Layer_Protocol
+-a always,exit -F arch=b64 -F path=/etc/security/limits.conf -F perm=wa -k T1071_Standard_Application_Layer_Protocol
+-a always,exit -F arch=b64 -F dir=/etc/security/limits.d -F perm=wa -k T1071_Standard_Application_Layer_Protocol
+-a always,exit -F arch=b64 -F path=/etc/security/pam_env.conf -F perm=wa -k T1071_Standard_Application_Layer_Protocol
+-a always,exit -F arch=b64 -F path=/etc/security/namespace.conf -F perm=wa -k T1071_Standard_Application_Layer_Protocol
+-a always,exit -F arch=b64 -F path=/etc/security/namespace.init -F perm=wa -k T1071_Standard_Application_Layer_Protocol
+-a always,exit -F arch=b64 -F dir=/etc/security/namespace.d -F perm=wa -k T1071_Standard_Application_Layer_Protocol
+-a always,exit -F arch=b64 -F path=/etc/pam.d/common-password -F perm=wa -k T1201_Password_Policy_Discovery
+
+## SSH Related Events
+-a always,exit -F arch=b64 -F path=/etc/ssh/sshd_config -F perm=wa -k T1021_Remote_Services.WSshd
+-a always,exit -F arch=b64 -F dir=/etc/ssh/sshd_config.d/ -F perm=wa -k T1021_Remote_Services.WSshd
+
+## Priv Escalation Related Events
+-a always,exit -F arch=b64 -F dir=/usr/bin/ -F perm=wa -k T1068_Exploitation_for_Privilege_Escalation
+
+## Recon Related Events
+-a always,exit -F arch=b64 -F path=/etc/gshadow -F perm=wa -k T1087_Account_Discovery
+-a always,exit -F arch=b64 -F path=/etc/shadow -F perm=wa -k T1087_Account_Discovery
+-a always,exit -F arch=b64 -F path=/etc/security/opasswd -F perm=wa -k opasswd
+-a always,exit -F arch=b64 -F path=/etc/hostname -F perm=r -k T1082_System_Information_Discovery
+-a always,exit -F arch=b64 -F path=/etc/issue -F perm=r -k T1082_System_Information_Discovery
+-a always,exit -F arch=b64 -F path=/etc/group -F perm=wa -k T1087_Account_Discovery
+-a always,exit -F arch=b64 -F path=/etc/passwd -F perm=wa -k T1087_Account_Discovery
+-a always,exit -F arch=b64 -F path=/etc/login.defs -F perm=wa -k T1082_System_Information_Discovery
+-a always,exit -F arch=b64 -F path=/etc/securetty -F perm=wa -k T1082_System_Information_Discovery
+-a always,exit -F arch=b64 -F path=/etc/hosts -F perm=wa -k network_modifications
+-a always,exit -F arch=b64 -F path=/etc/networks -F perm=wa -k network
+
+## Package Manager
+# RPM (Redhat-based)
+-a always,exit -F arch=b64 -F dir=/etc/yum.repos.d/ -F perm=wa -k T1072_third_party_software
+-a always,exit -F arch=b64 -F path=/etc/dnf/dnf.conf -F perm=wa -k T1072_third_party_software
+
+# DPKG / APT-GET (Debian-based)
+-a always,exit -F arch=b64 -F path=/etc/apt/sources.list -F perm=wa -k T1072_third_party_software
+-a always,exit -F arch=b64 -F dir=/etc/apt/sources.list.d/ -F perm=wa -k T1072_third_party_software
+
+## SELinux Related Events
+-a always,exit -F arch=b64 -F path=/etc/selinux/config -F perm=wa -k T1562_DefenseEvasion
+-a always,exit -F arch=b64 -F dir=/etc/selinux/ -F perm=wa -k T1562_DefenseEvasion
+
+## AppArmor Related Events
+-a always,exit -F arch=b64 -F dir=/etc/apparmor/ -F perm=wa -k T1562_DefenseEvasion
+
+## Library search paths
+-a always,exit -F arch=b64 -F path=/etc/ld.so.conf -F perm=a -k libpath
+-a always,exit -F arch=b64 -F dir=/etc/ld.so.conf.d/ -F perm=wa -k libpath
+
+## root ssh key tampering
+-a always,exit -F arch=b64 -F dir=/root/.ssh/ -F perm=wa -k rootkey
+
+# Systemd
+#-a always,exit -F arch=b64 -F dir=/etc/systemd/system-generators/ -F perm=wa -k systemd_generator
+-a always,exit -F arch=b64 -F dir=/usr/lib/systemd/system-generators/ -F perm=wa -k systemd_generator
+
+#-a always,exit -F arch=b64 -F dir=/etc/systemd/user-generators/ -F perm=wa -k systemd_generator
+#-a always,exit -F arch=b64 -F dir=/usr/local/lib/systemd/user-generators/ -F perm=wa -k systemd_generator
+-a always,exit -F arch=b64 -F dir=/lib/systemd/system-generators/ -F perm=wa -k systemd_generator
+-a always,exit -F arch=b64 -F dir=/etc/systemd/ -F perm=wa -k systemd
+-a always,exit -F arch=b64 -F dir=/usr/lib/systemd -F perm=wa -k systemd
+
+## Shell/profile configurations
+-a always,exit -F arch=b64 -F path=/etc/profile -F perm=wa -k shell_profiles
+-a always,exit -F arch=b64 -F path=/etc/shells -F perm=wa -k shell_profiles
+-a always,exit -F arch=b64 -F path=/etc/bashrc -F perm=wa -k shell_profiles
+-a always,exit -F arch=b64 -F path=/etc/csh.cshrc -F perm=wa -k shell_profiles
+-a always,exit -F arch=b64 -F path=/etc/csh.login -F perm=wa -k shell_profiles
+-a always,exit -F arch=b64 -F path=/etc/fish -F perm=wa -k shell_profiles
+-a always,exit -F arch=b64 -F path=/etc/zsh -F perm=wa -k shell_profiles
+-a always,exit -F arch=b64 -F dir=/etc/profile.d/ -F perm=wa -k shell_profiles
+
+## Docker
+-a always,exit -F arch=b64 -F dir=/var/lib/docker -F perm=wa -k docker
+-a always,exit -F arch=b64 -F dir=/etc/docker -F perm=wa -k docker
+-a always,exit -F arch=b64 -F path=/usr/lib/systemd/system/docker.service -F perm=wa -k docker
+-a always,exit -F arch=b64 -F path=/usr/lib/systemd/system/docker.socket -F perm=wa -k docker
+
