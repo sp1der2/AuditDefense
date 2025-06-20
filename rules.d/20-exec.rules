@@ -1,7 +1,7 @@
 ## Monitor for use of audit management tools
--a always,exit -F arch=b64 -F arch=b64 -F path=/sbin/auditctl -F perm=x -k T1562_DefenseEvasion
--a always,exit -F arch=b64 -F arch=b64 -F path=/sbin/auditd -F perm=x -k audittools
--a always,exit -F arch=b64 -F arch=b64 -F path=/sbin/auditctl -F perm=x -k audittools
+-a always,exit -F arch=b64 -F path=/sbin/auditctl -F perm=x -k T1562_DefenseEvasion
+-a always,exit -F arch=b64 -F path=/sbin/auditd -F perm=x -k audittools
+-a always,exit -F arch=b64 -F path=/sbin/auditctl -F perm=x -k audittools
 -a always,exit -F arch=b64 -F path=/sbin/auditd -F perm=x -k audittools
 -a always,exit -F arch=b64 -F path=/usr/sbin/auditd -F perm=x -k audittools
 -a always,exit -F arch=b64 -F path=/usr/sbin/augenrules -F perm=x -k audittools
@@ -212,10 +212,10 @@
 -a always,exit -F arch=b64 -F path=/usr/bin/zstd -F perm=x -k Data_Compressed
 -a always,exit -F arch=b64 -F path=/usr/local/bin/zstd -F perm=x -k Data_Compressed
 -a always,exit -F arch=b64 -F path=/usr/bin/gzexe -F perm=x -k Data_Compressed
--a always,exit -F arch=b64 -F arch=b64 -F path=/usr/bin/gzexe -F perm=x -k Data_Compressed
+-a always,exit -F arch=b64 -F path=/usr/bin/gzexe -F perm=x -k Data_Compressed
 
 -a always,exit -F arch=b64 -F path=/usr/sbin/gzexe -F perm=x -k Data_Compressed
--a always,exit -F arch=b64 -F arch=b64 -F path=/usr/sbin/gzexe -F perm=x -k Data_Compressed
+-a always,exit -F arch=b64 -F path=/usr/sbin/gzexe -F perm=x -k Data_Compressed
 
 ## Docker
 -a always,exit -F arch=b64 -F path=/usr/bin/dockerd -F perm=x -k docker
