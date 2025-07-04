@@ -1,0 +1,113 @@
+# =====================================================
+# HIGH VALUE - LOW NOISE RULES
+# =====================================================
+
+# Process Spoofing (T1036.009 - Masquerading: ProcFS)
+-a always,exit -F arch=b64 -S fork -k T1036.009.Sfork
+
+# Process Injection (T1055.008 - Ptrace Injection)
+-a always,exit -F arch=b64 -S ptrace -F a0=0x4 -k T1055.008.Sptrace
+-a always,exit -F arch=b64 -S ptrace -F a0=0x5 -k T1055.008.Sptrace
+-a always,exit -F arch=b64 -S ptrace -F a0=0x6 -k T1055.008.Sptrace
+-a always,exit -F arch=b64 -S ptrace -k T1055.008.Sptrace
+
+# Memory Execution (T1055 - Process Injection)
+-a always,exit -F arch=b64 -S memfd_create -k T1055.Smemfd_create
+
+# Privileged Execution (T1078 - Valid Accounts)
+-a always,exit -F arch=b64 -C auid!=uid -S execve -k T1078.Sexecve_id
+-a exit,always -F arch=b64 -F euid=0 -S execve -k T1078.Sexecve_root
+
+# Remote Shells (T1059 - Command-Line Interface)
+-a always,exit -F arch=b64 -F exe=/bin/bash -F success=1 -S connect -k T1059.Sremote_shell
+-a always,exit -F arch=b64 -F exe=/usr/bin/bash -F success=1 -S connect -k T1059.Sremote_shell
+
+# Kernel Modules (T1215 - Kernel Modules and Extensions)
+-a always,exit -F arch=b64 -S finit_module -S init_module -S delete_module -F auid!=-1 -k T1215.Skernel_modules
+
+# Kernel Execution (T1620 - Reflective Code Loading)
+-a always,exit -F arch=b64 -S kexec_load -k T1620.Skexec
+
+# System Configuration (T1546 - Event Triggered Execution)
+-a always,exit -F arch=b64 -S sethostname -S setdomainname -k T1546.Snetwork_mod
+
+# Physical Media Exfiltration (T1564.013 - Hidden Files)
+-a always,exit -F arch=b64 -S mount -F "auid=-1" -k T1564.013.Smount
+-a always,exit -F arch=b64 -S umount2 -F "auid>=500" -F "auid=-1" -k T1564.013.Sumount
+
+# Time Stomping (T1099 - Timestomp)
+-a exit,always -F arch=b64 -S adjtimex -S settimeofday -S clock_settime -k T1099.Stimestomp
+-a always,exit -F arch=b64 -S clock_settime -k T1099.Stimestomp
+
+# Swap Monitoring (T1542 - Pre-OS Boot)
+-a always,exit -F arch=b64 -S swapon -S swapoff -F auid!=-1 -k T1542.Sswap
+
+# =====================================================
+# MEDIUM VALUE - MODERATE NOISE RULES
+# =====================================================
+
+# Privilege Escalation (T1166 - Setuid and Setgid)
+-a always,exit -F arch=b64 -S setuid,setreuid,setresuid,setgid,setregid,setresgid -F "auid>=500" -F "auid=-1" -k T1166.Sprivilege_esc
+-a always,exit -F arch=b64 -S setuid -S setgid -S setreuid -S setregid -F exit=EPERM -k T1166.Sprivilege_denied
+
+# File Permissions (T1222.002 - Linux and Mac File Permissions)
+-a always,exit -F arch=b64 -S chmod,fchmod,fchmodat -F "auid!=-1" -k T1222.002.Schmod
+-a always,exit -F arch=b64 -S chown,fchown,lchown,fchownat -F "auid>=500" -F "auid=-1" -k T1222.002.Schown
+-a always,exit -F arch=b64 -S setxattr,lsetxattr,fsetxattr,removexattr,lremovexattr,fremovexattr -F "auid>=500" -F "auid=-1" -k T1222.002.Sxattr
+
+# File Deletion (T1070.004 - File Deletion)
+-a always,exit -F arch=b64 -S rmdir,unlink,unlinkat,rename,renameat -F "auid>=500" -F "auid=-1" -k T1070.004.Sfile_deletion
+-a always,exit -F arch=b64 -S rmdir,unlink,unlinkat,rename,renameat -F auid=0 -k T1070.004.Sroot_deletion
+
+# File Creation (T1107 - File Creation)
+-a always,exit -F arch=b64 -S mkdir -F "auid>=500" -F "auid=-1" -k T1107.Sdir_creation
+-a always,exit -F arch=b64 -S mkdir -F auid=0 -k T1107.Sroot_dir_creation
+
+# Symlink Creation (T1107 - File Creation)
+-a always,exit -F arch=b64 -S link,symlink -F "auid>=500" -F "auid=-1" -k T1107.Slink_creation
+-a always,exit -F arch=b64 -S link,symlink -F auid=0 -k T1107.Sroot_link_creation
+
+# Network Sockets (T1205.002 - Socket Filters)
+-a always,exit -F arch=b64 -S socket -F a0=2 -k T1205.002.Sipv4_socket
+-a always,exit -F arch=b64 -S socket -F a0=10 -k T1205.002.Sipv6_socket
+-a always,exit -F arch=b64 -S socket -F a1=3 -k T1205.002.Sraw_socket
+
+# Network Connections (T1043 - Commonly Used Port)
+-a always,exit -F arch=b64 -S connect -F a2=16 -F success=1 -k T1043.Sipv4_connect
+-a always,exit -F arch=b64 -S connect -F a2=28 -F success=1 -k T1043.Sipv6_connect
+-a exit,always -F arch=b64 -S connect -F a2!=110 -k T1043.Snonstd_port
+-a exit,always -F arch=b32 -S socketcall -F a0=3 -k T1043.Ssocketcall
+
+# =====================================================
+# GENERIC - HIGH NOISE RULES
+# =====================================================
+
+# Unauthorized Access (T1083 - File and Directory Discovery)
+-a always,exit -F arch=b64 -S creat,open,openat,open_by_handle_at,truncate,ftruncate -F exit=-EACCES -F auid>=1000 -F auid!=-1 -k T1083.Saccess_denied
+-a always,exit -F arch=b64 -S creat,open,openat,open_by_handle_at,truncate,ftruncate -F exit=-EPERM -F auid>=1000 -F auid!=-1 -k T1083.Sperm_denied
+
+# Failed File Creation (T1107 - File Creation)
+-a always,exit -F arch=b64 -S mkdir,creat,link,symlink,mknod,mknodat,linkat,symlinkat -F exit=-EACCES -k T1107.Screate_failed
+-a always,exit -F arch=b64 -S mkdir,link,symlink,mkdirat -F exit=-EPERM -k T1107.Screate_perm_denied
+
+# Failed File Modification (T1222 - File Permissions Modification)
+-a always,exit -F arch=b64 -S rename,renameat,truncate,chmod,setxattr,lsetxattr,removexattr,lremovexattr -F exit=-EACCES -k T1222.Smodify_denied
+-a always,exit -F arch=b64 -S rename,renameat,truncate,chmod,setxattr,lsetxattr,removexattr,lremovexattr -F exit=-EPERM -k T1222.Smodify_perm_denied
+
+# System File Access (T1083 - File and Directory Discovery)
+-a always,exit -F arch=b64 -S open -F dir=/etc -F success=0 -k T1083.Setc_access
+-a always,exit -F arch=b64 -S open -F dir=/bin -F success=0 -k T1083.Sbin_access
+-a always,exit -F arch=b64 -S open -F dir=/sbin -F success=0 -k T1083.Ssbin_access
+-a always,exit -F arch=b64 -S open -F dir=/usr/bin -F success=0 -k T1083.Susrbin_access
+-a always,exit -F arch=b64 -S open -F dir=/usr/sbin -F success=0 -k T1083.Susrsbin_access
+-a always,exit -F arch=b64 -S open -F dir=/var -F success=0 -k T1083.Svar_access
+-a always,exit -F arch=b64 -S open -F dir=/home -F success=0 -k T1083.Shome_access
+-a always,exit -F arch=b64 -S open -F dir=/srv -F success=0 -k T1083.Ssrv_access
+-a always,exit -F arch=b64 -S open -F dir=/tmp -F success=0 -k T1083.Stmp_access
+-a always,exit -F arch=b64 -S open -F dir=/var/tmp -F success=0 -k T1083.Svartmp_access
+
+# 32-bit System Calls (T1027 - Obfuscated Files or Information)
+-a always,exit -F arch=b32 -S all -k T1027.S32bit_calls
+
+# File Locking (T1485 - Data Destruction)
+-a always,exit -F arch=b64 -S flock -k T1485.Sflock

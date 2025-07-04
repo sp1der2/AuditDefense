@@ -1,0 +1,303 @@
+# =====================================================
+# Audit Management Tools (T1562.012 - Impair Defenses)
+# =====================================================
+-a always,exit -F arch=b64 -F exe=/usr/sbin/auditctl -F perm=x -k T1562.012.Xauditctl
+-a always,exit -F arch=b64 -F exe=/usr/sbin/auditd -F perm=x -k T1562.012.Xauditd
+-a always,exit -F arch=b64 -F exe=/usr/sbin/augenrules -F perm=x -k T1562.012.Xaugenrules
+-a always,exit -F arch=b64 -F exe=/usr/sbin/ausearch -F perm=x -k T1562.012.Xausearch
+-a always,exit -F arch=b64 -F exe=/usr/sbin/aureport -F perm=x -k T1562.012.Xaureport
+-a always,exit -F arch=b64 -F exe=/usr/sbin/aulast -F perm=x -k T1562.012.Xaulast
+-a always,exit -F arch=b64 -F exe=/usr/sbin/aulastlogin -F perm=x -k T1562.012.Xaulastlogin
+-a always,exit -F arch=b64 -F exe=/usr/sbin/auvirt -F perm=x -k T1562.012.Xauvirt
+
+# =====================================================
+# Kernel Module Management (T1547.006 - Kernel Modules)
+# =====================================================
+-a always,exit -F arch=b64 -F exe=/sbin/insmod -F perm=x -k T1547.006.Xinsmod
+-a always,exit -F arch=b64 -F exe=/sbin/modprobe -F perm=x -k T1547.006.Xmodprobe
+-a always,exit -F arch=b64 -F exe=/sbin/rmmod -F perm=x -k T1547.006.Xrmmod
+-a always,exit -F arch=b64 -F exe=/sbin/lsmod -F perm=x -k T1547.006.Xlsmod
+-a always,exit -F arch=b64 -F exe=/sbin/modinfo -F perm=x -k T1547.006.Xmodinfo
+
+# =====================================================
+# Stunnel Monitoring (T1079 - Multilayer Encryption)
+# =====================================================
+-a always,exit -F arch=b64 -F exe=/usr/sbin/stunnel -F perm=x -k T1079.Xstunnel
+-a always,exit -F arch=b64 -F exe=/usr/bin/stunnel -F perm=x -k T1079.Xstunnel
+
+# =====================================================
+# Account Management (T1098 - Account Manipulation)
+# =====================================================
+-a always,exit -F arch=b64 -F exe=/usr/bin/passwd -F perm=x -k T1098.Xpasswd
+-a always,exit -F arch=b64 -F exe=/usr/sbin/groupadd -F perm=x -k T1098.007.Xgroupadd
+-a always,exit -F arch=b64 -F exe=/usr/sbin/groupmod -F perm=x -k T1098.007.Xgroupmod
+-a always,exit -F arch=b64 -F exe=/usr/sbin/addgroup -F perm=x -k T1098.007.Xaddgroup
+-a always,exit -F arch=b64 -F exe=/usr/sbin/useradd -F perm=x -k T1098.007.Xuseradd
+-a always,exit -F arch=b64 -F exe=/usr/sbin/usermod -F perm=x -k T1098.007.Xusermod
+-a always,exit -F arch=b64 -F exe=/usr/sbin/adduser -F perm=x -k T1098.007.Xadduser
+
+# =====================================================
+# File Operations (T1565 - Data Manipulation)
+# =====================================================
+-a always,exit -F arch=b64 -F exe=/usr/bin/cp -F perm=x -k T1565.001.Xcp
+-a always,exit -F arch=b64 -F exe=/usr/bin/dd -F perm=x -k T1565.001.Xdd
+-a always,exit -F arch=b64 -F exe=/usr/bin/mv -F perm=x -k T1565.001.Xmv
+-a always,exit -F arch=b64 -F exe=/usr/bin/rm -F perm=x -k T1565.001.Xrm
+
+# =====================================================
+# Privileged Command Execution (T1078 - Valid Accounts)
+# =====================================================
+-a always,exit -F arch=b64 -F exe=/usr/sbin/userdel -F perm=x -F "auid>=500" -F "auid!=4294967295" -k T1078.Xuserdel
+-a always,exit -F arch=b64 -F exe=/bin/umount -F perm=x -F "auid>=500" -F "auid!=4294967295" -k T1078.Xumount
+-a always,exit -F arch=b64 -F exe=/bin/mount -F perm=x -F "auid>=500" -F "auid!=4294967295" -k T1078.Xmount
+-a always,exit -F arch=b64 -F exe=/bin/su -F perm=x -F "auid>=500" -F "auid!=4294967295" -k T1078.Xsu
+-a always,exit -F arch=b64 -F exe=/bin/chgrp -F perm=x -F "auid>=500" -F "auid!=4294967295" -k T1078.Xchgrp
+-a always,exit -F arch=b64 -F exe=/sbin/pam_timestamp_check -F perm=x -F "auid>=500" -F "auid!=4294967295" -k T1078.Xpam_timestamp
+-a always,exit -F arch=b64 -F exe=/sbin/unix_chkpwd -F perm=x -F "auid>=500" -F "auid!=4294967295" -k T1078.Xunix_chkpwd
+-a always,exit -F arch=b64 -F exe=/sbin/pwck -F perm=x -F "auid>=500" -F "auid!=4294967295" -k T1078.Xpwck
+-a always,exit -F arch=b64 -F exe=/usr/sbin/suexec -F perm=x -F "auid>=500" -F "auid!=4294967295" -k T1078.Xsuexec
+-a always,exit -F arch=b64 -F exe=/usr/sbin/usermod -F perm=x -F "auid>=500" -F "auid!=4294967295" -k T1078.Xusermod
+-a always,exit -F arch=b64 -F exe=/usr/sbin/newusers -F perm=x -F "auid>=500" -F "auid!=4294967295" -k T1078.Xnewusers
+-a always,exit -F arch=b64 -F exe=/usr/sbin/groupdel -F perm=x -F "auid>=500" -F "auid!=4294967295" -k T1078.Xgroupdel
+-a always,exit -F arch=b64 -F exe=/usr/sbin/semanage -F perm=x -F "auid>=500" -F "auid!=4294967295" -k T1078.Xsemanage
+-a always,exit -F arch=b64 -F exe=/usr/sbin/usernetctl -F perm=x -F "auid>=500" -F "auid!=4294967295" -k T1078.Xusernetctl
+-a always,exit -F arch=b64 -F exe=/usr/sbin/ccreds_validate -F perm=x -F "auid>=500" -F "auid!=4294967295" -k T1078.Xccreds_validate
+-a always,exit -F arch=b64 -F exe=/usr/sbin/userhelper -F perm=x -F "auid>=500" -F "auid!=4294967295" -k T1078.Xuserhelper
+-a always,exit -F arch=b64 -F exe=/usr/bin/Xorg -F perm=x -F "auid>=500" -F "auid!=4294967295" -k T1078.Xxorg
+-a always,exit -F arch=b64 -F exe=/usr/bin/rlogin -F perm=x -F "auid>=500" -F "auid!=4294967295" -k T1078.Xrlogin
+-a always,exit -F arch=b64 -F exe=/usr/bin/at -F perm=x -F "auid>=500" -F "auid!=4294967295" -k T1078.Xat
+-a always,exit -F arch=b64 -F exe=/usr/bin/rsh -F perm=x -F "auid>=500" -F "auid!=4294967295" -k T1078.Xrsh
+-a always,exit -F arch=b64 -F exe=/usr/bin/gpasswd -F perm=x -F "auid>=500" -F "auid!=4294967295" -k T1078.Xgpasswd
+-a always,exit -F arch=b64 -F exe=/usr/bin/kgrantpty -F perm=x -F "auid>=500" -F "auid!=4294967295" -k T1078.Xkgrantpty
+-a always,exit -F arch=b64 -F exe=/usr/bin/staprun -F perm=x -F "auid>=500" -F "auid!=4294967295" -k T1078.Xstaprun
+-a always,exit -F arch=b64 -F exe=/usr/bin/rcp -F perm=x -F "auid>=500" -F "auid!=4294967295" -k T1078.Xrcp
+-a always,exit -F arch=b64 -F exe=/usr/bin/passwd -F perm=x -F "auid>=500" -F "auid!=4294967295" -k T1078.Xpasswd
+-a always,exit -F arch=b64 -F exe=/usr/bin/chsh -F perm=x -F "auid>=500" -F "auid!=4294967295" -k T1078.Xchsh
+-a always,exit -F arch=b64 -F exe=/usr/bin/chfn -F perm=x -F "auid>=500" -F "auid!=4294967295" -k T1078.Xchfn
+-a always,exit -F arch=b64 -F exe=/usr/bin/chage -F perm=x -F "auid>=500" -F "auid!=4294967295" -k T1078.Xchage
+-a always,exit -F arch=b64 -F exe=/usr/bin/setfacl -F perm=x -F "auid>=500" -F "auid!=4294967295" -k T1078.Xsetfacl
+-a always,exit -F arch=b64 -F exe=/usr/bin/chacl -F perm=x -F "auid>=500" -F "auid!=4294967295" -k T1078.Xchacl
+-a always,exit -F arch=b64 -F exe=/usr/bin/chcon -F perm=x -F "auid>=500" -F "auid!=4294967295" -k T1078.Xchcon
+-a always,exit -F arch=b64 -F exe=/usr/bin/newgrp -F perm=x -F "auid>=500" -F "auid!=4294967295" -k T1078.Xnewgrp
+-a always,exit -F arch=b64 -F exe=/usr/bin/newrole -F perm=x -F "auid>=500" -F "auid!=4294967295" -k T1078.Xnewrole
+-a always,exit -F arch=b64 -F exe=/usr/bin/kpac_dhcp_helper -F perm=x -F "auid>=500" -F "auid!=4294967295" -k T1078.Xkpac_dhcp
+
+# =====================================================
+# Privilege Escalation (T1548 - Abuse Elevation Control)
+# =====================================================
+-a always,exit -F arch=b64 -F exe=/bin/su -F perm=x -k T1548.003.Xsu
+-a always,exit -F arch=b64 -F exe=/usr/bin/sudo -F perm=x -k T1548.003.Xsudo
+
+# =====================================================
+# Reconnaissance (Discovery Techniques)
+# =====================================================
+-a always,exit -F arch=b64 -F exe=/usr/bin/locale -F perm=x -k T1614.001.Xlocale
+-a always,exit -F arch=b64 -F exe=/usr/bin/localectl -F perm=x -k T1614.001.Xlocalectl
+-a always,exit -F arch=b64 -F exe=/usr/bin/whoami -F perm=x -k T1033.Xwhoami
+-a always,exit -F arch=b64 -F exe=/usr/bin/uname -F perm=x -k T1082.Xuname
+-a always,exit -F arch=b64 -F exe=/usr/bin/id -F perm=x -k T1033.Xid
+-a always,exit -F arch=b64 -F exe=/usr/bin/hostname -F perm=x -k T1082.Xhostname
+-a always,exit -F arch=b64 -F exe=/sbin/iptables -F perm=x -k T1016.Xiptables
+-a always,exit -F arch=b64 -F exe=/sbin/ip6tables -F perm=x -k T1016.Xip6tables
+-a always,exit -F arch=b64 -F exe=/sbin/ifconfig -F perm=x -k T1016.Xifconfig
+-a always,exit -F arch=b64 -F exe=/usr/sbin/tcpdump -F perm=x -k T1040.Xtcpdump
+-a always,exit -F arch=b64 -F exe=/usr/sbin/traceroute -F perm=x -k T1016.001.Xtraceroute
+-a always,exit -F arch=b64 -F exe=/usr/bin/wireshark -F perm=x -k T1040.Xwireshark
+-a always,exit -F arch=b64 -F exe=/usr/bin/rawshark -F perm=x -k T1040.Xrawshark
+-a always,exit -F arch=b64 -F exe=/usr/bin/grep -F perm=x -k T1552.001.Xgrep
+-a always,exit -F arch=b64 -F exe=/usr/bin/egrep -F perm=x -k T1552.001.Xegrep
+-a always,exit -F arch=b64 -F exe=/usr/bin/ps -F perm=x -k T1057.Xps
+-a always,exit -F arch=b64 -F exe=/usr/bin/groups -F perm=x -k T1069.001.Xgroups
+
+# =====================================================
+# Data Collection (T1005 - Data from Local System)
+# =====================================================
+-a always,exit -F arch=b64 -F exe=/usr/bin/cp -F perm=x -k T1005.Xcp
+-a always,exit -F arch=b64 -F exe=/usr/bin/dd -F perm=x -k T1005.Xdd
+
+# =====================================================
+# Remote Access Tools (T1219 - Remote Access Software)
+# =====================================================
+-a always,exit -F arch=b64 -F exe=/usr/bin/wget -F perm=x -k T1219.Xwget
+-a always,exit -F arch=b64 -F exe=/usr/bin/curl -F perm=x -k T1219.Xcurl
+-a always,exit -F arch=b64 -F exe=/usr/bin/base64 -F perm=x -k T1219.Xbase64
+-a always,exit -F arch=b64 -F exe=/bin/nc -F perm=x -k T1219.Xnc
+-a always,exit -F arch=b64 -F exe=/bin/netcat -F perm=x -k T1219.Xnetcat
+-a always,exit -F arch=b64 -F exe=/usr/bin/ncat -F perm=x -k T1219.Xncat
+-a always,exit -F arch=b64 -F exe=/usr/bin/ss -F perm=x -k T1219.Xss
+-a always,exit -F arch=b64 -F exe=/usr/bin/netstat -F perm=x -k T1219.Xnetstat
+-a always,exit -F arch=b64 -F exe=/usr/bin/ssh -F perm=x -k T1219.Xssh
+-a always,exit -F arch=b64 -F exe=/usr/bin/ssh-keygen -F perm=x -k T1219.Xssh_keygen
+-a always,exit -F arch=b64 -F exe=/usr/bin/scp -F perm=x -k T1219.Xscp
+-a always,exit -F arch=b64 -F exe=/usr/bin/sftp -F perm=x -k T1219.Xsftp
+-a always,exit -F arch=b64 -F exe=/usr/bin/ftp -F perm=x -k T1219.Xftp
+-a always,exit -F arch=b64 -F exe=/usr/bin/socat -F perm=x -k T1219.Xsocat
+-a always,exit -F arch=b64 -F exe=/usr/bin/rdesktop -F perm=x -k T1219.Xrdesktop
+-a always,exit -F arch=b64 -F exe=/usr/bin/nmap -F perm=x -k T1046.Xnmap
+-a always,exit -F arch=b64 -F exe=/usr/sbin/arptables -F perm=x -k T1018.Xarptables
+-a always,exit -F arch=b64 -F exe=/usr/sbin/ebtables -F perm=x -k T1018.Xebtables
+-a always,exit -F arch=b64 -F exe=/sbin/xtables-nft-multi -F perm=x -k T1018.Xxtables
+-a always,exit -F arch=b64 -F exe=/usr/sbin/nft -F perm=x -k T1018.Xnft
+
+# =====================================================
+# Suspicious Shells (T1059 - Command-Line Interface)
+# =====================================================
+-a always,exit -F arch=b64 -F exe=/bin/ash -F perm=x -k T1059.Xash
+-a always,exit -F arch=b64 -F exe=/bin/csh -F perm=x -k T1059.Xcsh
+-a always,exit -F arch=b64 -F exe=/bin/fish -F perm=x -k T1059.Xfish
+-a always,exit -F arch=b64 -F exe=/bin/tcsh -F perm=x -k T1059.Xtcsh
+-a always,exit -F arch=b64 -F exe=/bin/tclsh -F perm=x -k T1059.Xtclsh
+-a always,exit -F arch=b64 -F exe=/bin/xonsh -F perm=x -k T1059.Xxonsh
+-a always,exit -F arch=b64 -F exe=/usr/local/bin/xonsh -F perm=x -k T1059.Xxonsh_local
+-a always,exit -F arch=b64 -F exe=/bin/open -F perm=x -k T1059.Xopen
+-a always,exit -F arch=b64 -F exe=/bin/rbash -F perm=x -k T1059.Xrbash
+-a always,exit -F arch=b64 -F exe=/bin/sh -F perm=x -k T1059.Xsh
+
+
+# =====================================================
+# Package Manager (T1518.001 - Software Discovery)
+# =====================================================
+# RPM (Redhat-based)
+-a always,exit -F arch=b64 -F exe=/usr/bin/rpm -F perm=x -k T1518.001.Xrpm
+-a always,exit -F arch=b64 -F exe=/usr/bin/yum -F perm=x -k T1518.001.Xyum
+
+# DPKG/APT (Debian-based)
+-a always,exit -F arch=b64 -F exe=/usr/bin/dpkg -F perm=x -k T1518.001.Xdpkg
+-a always,exit -F arch=b64 -F exe=/usr/bin/apt-add-repository -F perm=x -k T1518.001.Xapt_add_repo
+-a always,exit -F arch=b64 -F exe=/usr/bin/apt-get -F perm=x -k T1518.001.Xapt_get
+-a always,exit -F arch=b64 -F exe=/usr/bin/aptitude -F perm=x -k T1518.001.Xaptitude
+
+# =====================================================
+# Remote File Transfer (T1105 - Ingress Tool Transfer)
+# =====================================================
+-a always,exit -F arch=b64 -F exe=/usr/bin/ftp -F perm=x -k T1105.Xftp
+
+# =====================================================
+# SELinux Events (T1562.001 - Impair Defenses)
+# =====================================================
+-a always,exit -F arch=b64 -F exe=/usr/sbin/setenforce -F perm=x -k T1562.001.Xsetenforce
+-a always,exit -F arch=b64 -F exe=/usr/sbin/grubby -F perm=x -k T1562.001.Xgrubby
+-a always,exit -F arch=b64 -F exe=/usr/sbin/sestatus -F perm=x -k T1562.001.Xsestatus
+-a always,exit -F arch=b64 -F exe=/usr/sbin/semanage -F perm=x -k T1562.001.Xsemanage
+-a always,exit -F arch=b64 -F exe=/usr/sbin/load_policy -F perm=x -k T1562.001.Xload_policy
+-a always,exit -F arch=b64 -F exe=/usr/sbin/selinuxenabled -F perm=x -k T1562.001.Xselinuxenabled
+-a always,exit -F arch=b64 -F exe=/usr/sbin/setfiles -F perm=x -k T1562.001.Xsetfiles
+
+# =====================================================
+# AppArmor Events (T1562.001 - Impair Defenses)
+# =====================================================
+-a always,exit -F arch=b64 -F exe=/usr/sbin/aa-disable -F perm=x -k T1562.001.Xaa_disable
+-a always,exit -F arch=b64 -F exe=/usr/sbin/aa-complain -F perm=x -k T1562.001.Xaa_complain
+-a always,exit -F arch=b64 -F exe=/usr/sbin/aa-teardown -F perm=x -k T1562.001.Xaa_teardown
+
+# =====================================================
+# Systemd Services (T1569.002 - System Services)
+# =====================================================
+-a always,exit -F arch=b64 -F exe=/bin/systemctl -F perm=x -k T1569.002.Xsystemctl
+-a always,exit -F arch=b64 -F exe=/bin/systemd-run -F perm=x -k T1053.006.Xsystemd_run
+
+# =====================================================
+# NFS Mounts (T1078 - Valid Accounts)
+# =====================================================
+-a always,exit -F arch=b64 -F exe=/sbin/mount.nfs -F perm=x -F "auid>=500" -F "auid!=4294967295" -k T1078.Xmount_nfs
+-a always,exit -F arch=b64 -F exe=/usr/sbin/mount.nfs -F perm=x -F "auid>=500" -F "auid!=4294967295" -k T1078.Xmount_nfs
+
+# =====================================================
+# Power Management (T1529 - System Shutdown/Reboot)
+# =====================================================
+-a always,exit -F arch=b64 -F exe=/sbin/shutdown -F perm=x -k T1529.Xshutdown
+-a always,exit -F arch=b64 -F exe=/sbin/poweroff -F perm=x -k T1529.Xpoweroff
+-a always,exit -F arch=b64 -F exe=/sbin/reboot -F perm=x -k T1529.Xreboot
+-a always,exit -F arch=b64 -F exe=/sbin/halt -F perm=x -k T1529.Xhalt
+
+# =====================================================
+# SSSD Child Processes (T1078 - Valid Accounts)
+# =====================================================
+-a always,exit -F arch=b64 -F exe=/usr/libexec/sssd/p11_child -F perm=x -F "auid>=500" -F "auid!=4294967295" -k T1078.Xsssd_p11
+-a always,exit -F arch=b64 -F exe=/usr/libexec/sssd/krb5_child -F perm=x -F "auid>=500" -F "auid!=4294967295" -k T1078.Xsssd_krb5
+-a always,exit -F arch=b64 -F exe=/usr/libexec/sssd/ldap_child -F perm=x -F "auid>=500" -F "auid!=4294967295" -k T1078.Xsssd_ldap
+-a always,exit -F arch=b64 -F exe=/usr/libexec/sssd/selinux_child -F perm=x -F "auid>=500" -F "auid!=4294967295" -k T1078.Xsssd_selinux
+-a always,exit -F arch=b64 -F exe=/usr/libexec/sssd/proxy_child -F perm=x -F "auid>=500" -F "auid!=4294967295" -k T1078.Xsssd_proxy
+
+# =====================================================
+# Data Compression (T1027 - Obfuscated Files)
+# =====================================================
+-a always,exit -F arch=b64 -F exe=/usr/bin/zip -F perm=x -k T1027.015.Xzip
+-a always,exit -F arch=b64 -F exe=/usr/bin/gzip -F perm=x -k T1027.015.Xgzip
+-a always,exit -F arch=b64 -F exe=/usr/bin/tar -F perm=x -k T1027.015.Xtar
+-a always,exit -F arch=b64 -F exe=/usr/bin/bzip2 -F perm=x -k T1027.015.Xbzip2
+-a always,exit -F arch=b64 -F exe=/usr/bin/lzip -F perm=x -k T1027.015.Xlzip
+-a always,exit -F arch=b64 -F exe=/usr/local/bin/lzip -F perm=x -k T1027.015.Xlzip_local
+-a always,exit -F arch=b64 -F exe=/usr/bin/lz4 -F perm=x -k T1027.015.Xlz4
+-a always,exit -F arch=b64 -F exe=/usr/local/bin/lz4 -F perm=x -k T1027.015.Xlz4_local
+-a always,exit -F arch=b64 -F exe=/usr/bin/lzop -F perm=x -k T1027.015.Xlzop
+-a always,exit -F arch=b64 -F exe=/usr/local/bin/lzop -F perm=x -k T1027.015.Xlzop_local
+-a always,exit -F arch=b64 -F exe=/usr/bin/plzip -F perm=x -k T1027.015.Xplzip
+-a always,exit -F arch=b64 -F exe=/usr/local/bin/plzip -F perm=x -k T1027.015.Xplzip_local
+-a always,exit -F arch=b64 -F exe=/usr/bin/pbzip2 -F perm=x -k T1027.015.Xpbzip2
+-a always,exit -F arch=b64 -F exe=/usr/local/bin/pbzip2 -F perm=x -k T1027.015.Xpbzip2_local
+-a always,exit -F arch=b64 -F exe=/usr/bin/lbzip2 -F perm=x -k T1027.015.Xlbzip2
+-a always,exit -F arch=b64 -F exe=/usr/local/bin/lbzip2 -F perm=x -k T1027.015.Xlbzip2_local
+-a always,exit -F arch=b64 -F exe=/usr/bin/pixz -F perm=x -k T1027.015.Xpixz
+-a always,exit -F arch=b64 -F exe=/usr/local/bin/pixz -F perm=x -k T1027.015.Xpixz_local
+-a always,exit -F arch=b64 -F exe=/usr/bin/pigz -F perm=x -k T1027.015.Xpigz
+-a always,exit -F arch=b64 -F exe=/usr/local/bin/pigz -F perm=x -k T1027.015.Xpigz_local
+-a always,exit -F arch=b64 -F exe=/usr/bin/unpigz -F perm=x -k T1027.015.Xunpigz
+-a always,exit -F arch=b64 -F exe=/usr/local/bin/unpigz -F perm=x -k T1027.015.Xunpigz_local
+-a always,exit -F arch=b64 -F exe=/usr/bin/zstd -F perm=x -k T1027.015.Xzstd
+-a always,exit -F arch=b64 -F exe=/usr/local/bin/zstd -F perm=x -k T1027.015.Xzstd_local
+-a always,exit -F arch=b64 -F exe=/usr/bin/gzexe -F perm=x -k T1027.015.Xgzexe
+-a always,exit -F arch=b64 -F exe=/usr/sbin/gzexe -F perm=x -k T1027.015.Xgzexe_sbin
+
+# =====================================================
+# Container Management (T1610 - Deploy Container)
+# =====================================================
+-a always,exit -F arch=b64 -F exe=/usr/bin/dockerd -F perm=x -k T1610.Xdockerd
+-a always,exit -F arch=b64 -F exe=/usr/bin/docker -F perm=x -k T1610.Xdocker
+-a always,exit -F arch=b64 -F exe=/usr/bin/docker-containerd -F perm=x -k T1610.Xcontainerd
+-a always,exit -F arch=b64 -F exe=/usr/bin/docker-runc -F perm=x -k T1610.Xrunc
+
+# =====================================================
+# Kubernetes (T1610 - Deploy Container)
+# =====================================================
+-a always,exit -F arch=b64 -F exe=/usr/bin/kubelet -F perm=x -k T1610.Xkubelet
+
+# =====================================================
+# Scripting Engines (T1059 - Command-Line Interface)
+# =====================================================
+-a always,exit -F arch=b64 -F exe=/usr/bin/python3 -F perm=x -k T1059.006.Xpython3
+
+# =====================================================
+# Temporary Files (T1070.004 - File Deletion)
+# =====================================================
+-a always,exit -F arch=b64 -F exe=/usr/bin/mktemp -F perm=x -k T1070.004.Xmktemp
+
+# =====================================================
+# File Attributes (T1564 - Hide Artifacts)
+# =====================================================
+-a always,exit -F arch=b64 -F exe=/usr/bin/getfattr -F perm=x -k T1564.014.Xgetfattr
+
+# =====================================================
+# Process Persistence (T1564 - Hide Artifacts)
+# =====================================================
+-a always,exit -F arch=b64 -F exe=/usr/bin/nohup -F perm=x -k T1564.011.Xnohup
+
+# =====================================================
+# Firewall Management (T1562.004 - Disable Firewall)
+# =====================================================
+-a always,exit -F arch=b64 -F exe=/usr/bin/firewall-cmd -F perm=x -k T1562.004.Xfirewall_cmd
+
+# =====================================================
+# File Timestamp Manipulation (T1070.006 - Timestomp)
+# =====================================================
+-a always,exit -F arch=b64 -F exe=/usr/bin/touch -F perm=x -k T1070.006.Xtouch
+
+# =====================================================
+# Hardware Discovery (T1120 - Peripheral Device Discovery)
+# =====================================================
+-a always,exit -F arch=b64 -F exe=/usr/bin/lspci -F perm=x -k T1120.Xlspci
+-a always,exit -F arch=b64 -F exe=/usr/bin/lsusb -F perm=x -k T1120.Xlsusb
+-a always,exit -F arch=b64 -F exe=/usr/bin/lsblk -F perm=x -k T1120.Xlsblk
+-a always,exit -F arch=b64 -F exe=/usr/bin/lshw -F perm=x -k T1120.Xlshw
+-a always,exit -F arch=b64 -F exe=/usr/sbin/dmidecode -F perm=x -k T1120.Xdmidecode
+
